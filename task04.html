@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        span{
+            background:red;
+            padding:10px;
+            margin-top:10px;
+            display:inline-block;
+            color:white;
+            margin-right:5px;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="input">
+    <button id="btn1">左侧入</button>
+    <button id="btn2">右侧入</button>
+    <button id="btn3">左侧出</button>
+    <button id="btn4">右侧出</button><br>
+    <div id="div">
+        <span>10</span>
+        <span>3</span>
+        <span>7</span>
+        <span>12</span>
+        <span>11</span>
+        <span>30</span>
+    </div>
+</body>
+<script>
+    function num(){
+        var span=document.getElementsByTagName('span');
+        var data=[];
+        for(var i=0;i<span.length;i++){
+            var n1=parseInt(span[i].innerHTML);
+            data.push(n1);
+        }
+        return data;
+    }
+    function display(data){
+        var div=document.getElementById('div');
+        div.innerHTML="";
+        for(var i=0;i<data.length;i++){
+            div.innerHTML+="<span>"+data[i]+"</span>";
+        }
+    }
+    var inl=document.getElementById('btn1');
+    var inr=document.getElementById('btn2');
+    var outl=document.getElementById('btn3');
+    var outr=document.getElementById('btn4');
+    inl.onclick=function(){
+        var data=num();
+        var input=document.getElementById('input').value;
+        data.unshift(input);
+        display(data);
+        blind();
+    }
+    inr.onclick=function(){
+        var data=num();
+        var input=document.getElementById('input').value;
+        data.push(input);
+        display(data);
+        blind();
+    }
+    outl.onclick=function(){
+        var data=num();
+        alert(data.shift());
+        display(data);
+        blind();
+    }
+    outr.onclick=function(){
+        var data=num();
+        alert(data.pop());
+        display(data);
+        blind();
+    }
+    function del(event){
+        var event=event||window.event;
+        var target=event.target||event.srcElement;
+        target.remove();
+        console.log("123");
+    }
+    function blind(){
+        var spans=document.getElementsByTagName('span');
+        for(var i=0;i<spans.length;i++){
+            spans[i].addEventListener("click",del,false);
+        }
+    }
+    blind();
+</script>
+</html>
