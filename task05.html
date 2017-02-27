@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        span{
+            background:red;
+            padding:10px;
+            margin-top:10px;
+            display:inline-block;
+            color:white;
+            margin-right:5px;
+        }
+        d2>span{
+            background:red;
+            display:inline-block;
+            width:20px;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="input">
+    <button id="btn1">左侧入</button>
+    <button id="btn2">右侧入</button>
+    <button id="btn3">左侧出</button>
+    <button id="btn4">右侧出</button><br>
+    <div id="div"></div>
+    <div id="d2"></div>
+    <div id="d3"></div>
+</body>
+<script>
+    var inl=document.getElementById('btn1');
+    var inr=document.getElementById('btn2');
+    var outl=document.getElementById('btn3');
+    var outr=document.getElementById('btn4');
+    var inputs=document.getElementById('input');
+    var div=document.getElementById('div');
+    var d2=document.getElementById('d2');
+    var d3=document.getElementById('d3');
+    function num(){
+        var span=div.getElementsByTagName('span');
+        var data=[];
+        for(var i=0;i<span.length;i++){
+            var n1=parseInt(span[i].innerHTML);
+            data.push(n1);
+        }
+        return data;
+    }
+    function display(data){
+        var div=document.getElementById('div');
+        div.innerHTML="";
+        for(var i=0;i<data.length;i++){
+            div.innerHTML+="<span>"+data[i]+"</span>";
+        }
+    }
+    function barDisplay(data){
+        d2.innerHTML="";
+        for(var i=0;i<data.length;i++){
+            var span=document.createElement("span");
+            span.style.height=data[i]+"px";
+            d2.appendChild(span);
+        }
+    }
+    function sortDisplay(data){
+        for(var j=0;j<data.length-1;j++){
+            for(var i=0;i<data.length-j-1;i++){
+                if(data[i]>data[i+1]){
+                    var n=data[i];
+                    data[i]=data[i+1];
+                    data[i+1]=n;
+                }
+            }
+        }
+        d3.innerHTML="";
+        for(var i=0;i<data.length;i++){
+            var span=document.createElement("span");
+            span.style.height=data[i]+"px";
+            d3.appendChild(span);
+        }
+    }
+
+    inl.onclick=function(){
+        var data=num();
+        var input=parseInt(inputs.value);
+        if(data.length<=60){
+            if(!isNaN(input)&&input>=10&&input<=100){
+                data.unshift(input);
+                display(data);
+                barDisplay(data);
+                sortDisplay(data);
+            }else{
+                alert("请输入数字10-100");
+            }
+        }else{
+            alert("不能添加超过60个数");
+        }
+        console.log(data);
+    }
+    inr.onclick=function(){
+        var data=num();
+        var input=parseInt(inputs.value);
+        if(data.length<=60){
+            if(!isNaN(input)&&input>=10&&input<=100){
+                data.push(input);
+                display(data);
+                barDisplay(data);
+            }else{
+                alert("请输入数字10-100");
+            }
+        }else{
+            alert("不能添加超过60个数");
+        }
+    }
+    outl.onclick=function(){
+        var data=num();
+        alert(data.shift());
+        display(data);
+        barDisplay(data);
+    }
+    outr.onclick=function(){
+        var data=num();
+        alert(data.pop());
+        display(data);
+        barDisplay(data);
+    }
+    div.addEventListener('click',function(event){
+        var event=event||window.event;
+        var target=event.target||event.srcElement;
+        target.remove();
+    });
+</script>
+</html>
