@@ -24,12 +24,12 @@
     </style>
 </head>
 <body>
-<textarea id="input-text"></textarea>
+<textarea id="inputText"></textarea>
 <button id="btn1">左侧入</button>
 <button id="btn2">右侧入</button>
 <button id="btn3">左侧出</button>
 <button id="btn4">右侧出</button><br>
-<input type="text" id="search-text">
+<input type="text" id="searchText">
 <button id="search">搜索</button>
 
 <div id="div"></div>
@@ -39,7 +39,7 @@
         var span=document.getElementsByTagName('span');
         var data=[];
         for(var i=0;i<span.length;i++){
-            var n1=parseInt(span[i].innerHTML);
+            var n1=span[i].innerHTML;
             data.push(n1);
         }
         return data;
@@ -55,26 +55,32 @@
     var inr=document.getElementById('btn2');
     var outl=document.getElementById('btn3');
     var outr=document.getElementById('btn4');
-    var inputs=document.getElementById('input');
+    var inputs=document.getElementById('inputText');
     var div=document.getElementById('div');
+    var searchText=document.getElementById('searchText');
+    var search=document.getElementById('search');
     inl.onclick=function(){
         var data=num();
-        var input=parseInt(inputs.value);
-        if(!isNaN(input)){
-            data.unshift(input);
+        var input=inputs.value.split(/[\s,;，；、]+/);
+        if(input!=''){
+            for(var i=0;i<input.length;i++){
+                data.unshift(input[i]);
+            }
             display(data);
         }else{
-            alert("请输入数字");
+            alert("请输入内容");
         }
     }
     inr.onclick=function(){
         var data=num();
-        var input=parseInt(inputs.value);
-        if(!isNaN(input)){
-            data.push(input);
+        var input=inputs.value.split(/[\s,;，；、]+/);
+        if(input!=''){
+            for(var i=0;i<input.length;i++){
+                data.push(input[i]);
+            }
             display(data);
         }else{
-            alert("请输入数字");
+            alert("请输入内容");
         }
     }
     outl.onclick=function(){
@@ -92,5 +98,21 @@
         var target=event.target||event.srcElement;
         target.remove();
     });
+    search.addEventListener('click',function(){
+        var data=num();
+        display(data);
+        var text=searchText.value;
+        var span=div.getElementsByTagName('span');
+        if(text!=''){
+            for(var i=0;i<span.length;i++){
+                var str=span[i].innerHTML;
+                if(str.indexOf(text)!=-1){
+                    span[i].style.color="yellow";
+                }
+            }
+        }else{
+            alert("请输入内容");
+        }
+    })
 </script>
 </html>
